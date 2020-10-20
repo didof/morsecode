@@ -23,13 +23,12 @@ class AuthCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     title,
                     style: TextStyle(fontSize: 28),
                   ),
-                  child,
+                  Expanded(child: SingleChildScrollView(child: child)),
                 ],
               ),
             ),

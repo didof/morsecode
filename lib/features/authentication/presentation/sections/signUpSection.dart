@@ -15,6 +15,7 @@ class SignUpSection extends StatelessWidget {
         return Scaffold(
           appBar: appBar,
           floatingActionButton: SubmitFAB(),
+          // floatingActionButtonLocation: provider.getFABLocation(),
           body: Center(
             child: AuthCard(
               title: 'Signup',
@@ -37,6 +38,7 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _key = GlobalKey<FormState>();
+  String email, password;
 
   @override
   void dispose() {
@@ -49,14 +51,15 @@ class _SignUpFormState extends State<SignUpForm> {
     return FormProviderWidgetConsumerWidget(
       formKey: _key,
       formBuilder: (context, provider, theme, constraints) {
-        print(provider.formKey);
         return Column(
           children: [
             TextFormField(
               decoration: InputDecoration(labelText: 'e-mail'),
+              onSaved: (value) => provider.setValue(Fields.Email, value),
             ),
             TextFormField(
               decoration: InputDecoration(labelText: 'password'),
+              onSaved: (value) => provider.setValue(Fields.Password, value),
               obscureText: true,
             ),
           ],
@@ -65,3 +68,8 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 }
+
+// TODO
+/// on the trigger event, send the user to the warden managed with cubit
+/// the warden does all the checks (uid, cloud, saves in hive) and dispatch
+/// the right screen

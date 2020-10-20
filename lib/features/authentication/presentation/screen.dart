@@ -14,8 +14,9 @@ class AuthenticationScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                    decoration:
-                        BoxDecoration(gradient: provider.getBackground())),
+                    decoration: BoxDecoration(
+                  gradient: provider.getBackground(),
+                )),
                 ListWheelScrollView(
                   itemExtent: constraints.maxHeight / 4,
                   onSelectedItemChanged: (value) => provider.setIndex(value),

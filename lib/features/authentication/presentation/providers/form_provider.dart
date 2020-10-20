@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+enum Fields {
+  Email,
+  Password,
+}
+
 class FormProvider with ChangeNotifier {
   GlobalKey<FormState> formKey;
 
@@ -8,12 +13,14 @@ class FormProvider with ChangeNotifier {
   String email;
   String password;
 
+  bool isWaiting = false;
+
   FormProvider({
     this.email,
     this.password,
   });
 
-  List<dynamic> get props => [email, password, theme, formKey];
+  List<dynamic> get props => [formKey, theme, email, password];
 
   void setTheme(ThemeData input) {
     theme = input;
@@ -28,6 +35,38 @@ class FormProvider with ChangeNotifier {
       print('clearing $prop');
       prop = null;
     });
+  }
+
+  void readValues() {
+    props.forEach((prop) {
+      if (props != null) print('read: prop{$prop}');
+    });
+  }
+
+  void saveValues() {
+    formKey.currentState.save();
+    isWaiting = true;
+    notifyListeners();
+    mockRequest();
+  }
+
+  Future<void> mockRequest() async {
+    Future.delayed(Duration(milliseconds: 500), () {
+      isWaiting = false;
+      notifyListeners();
+    });
+  }
+
+  void setValue(Fields field, String value) {
+    switch (field) {
+      case Fields.Email:
+        email = value;
+        break;
+      case Fields.Password:
+        password = value;
+        break;
+      default:
+    }
   }
 }
 
@@ -68,9 +107,14 @@ class FormProviderWidget extends StatelessWidget {
 class FormProviderWidgetConsumerWidget extends StatelessWidget {
   final ProviderBuilder formBuilder;
   final GlobalKey<FormState> formKey;
+  final String email;
+  final String password;
+
   FormProviderWidgetConsumerWidget({
     @required this.formBuilder,
     @required this.formKey,
+    this.email,
+    this.password,
   });
 
   @override
@@ -78,12 +122,22 @@ class FormProviderWidgetConsumerWidget extends StatelessWidget {
     final provider = Provider.of<FormProvider>(context);
     final ThemeData theme = provider.theme;
     return LayoutBuilder(builder: (context, constraints) {
-      print('creating new form $formKey');
       provider.setFormKey(formKey);
       return Form(
         key: provider.formKey,
         child: formBuilder(context, provider, theme, constraints),
       );
     });
+  }
+}
+
+class FormProviderAccess extends StatelessWidget {
+  final Widget Function(BuildContext context, FormProvider provider) builder;
+  FormProviderAccess({@required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<FormProvider>(context);
+    return builder(context, provider);
   }
 }
