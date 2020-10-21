@@ -57,7 +57,7 @@ class ListWheelProvider with ChangeNotifier {
     bool inverted = false,
   }) {
     LinearGradient linearGradient(bool invert) {
-      final color = invert ? theme.accentColor : theme.primaryColor;
+      final color = invert ? Colors.white : theme.primaryColor;
       return LinearGradient(
         colors: [
           color,

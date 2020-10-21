@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:morsecode/core/authentication/authMethods.dart';
+import 'package:morsecode/core/transitions/authentication_section.dart';
 
 class PickerSelectorFAB extends StatelessWidget {
   final AuthMethod authMethod;
@@ -18,9 +19,11 @@ class PickerSelectorFAB extends StatelessWidget {
       heroTag: 'authentication_title',
       splashColor: theme.primaryColor,
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return authMethod.instance;
-        }));
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        //   return authMethod.instance;
+        // }));
+        Navigator.of(context)
+            .push(transitionsAuthentication(authMethod.instance));
       },
     );
   }
