@@ -76,16 +76,17 @@ class ListWheelProvider with ChangeNotifier {
   }
 
   Color getColor(int input, {bool inverted = false}) {
+    final color = Colors.white;
     if (input == index) {
       if (inverted)
         return theme.accentColor;
       else
-        return theme.primaryColor;
+        return color;
     } else {
       if (inverted)
         return theme.primaryColor;
       else
-        return theme.accentColor;
+        return color;
     }
   }
 
