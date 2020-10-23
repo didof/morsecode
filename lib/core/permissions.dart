@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 Future<void> init() async {
   final notGranted = await _getNotGranted(PERMISSIONS_NEEDED_AT_RUNAPP);
+  if (notGranted.isEmpty) return;
   await _askPermissions(notGranted);
 }
 

@@ -15,9 +15,6 @@ class ListWheelGestureDetector extends StatefulWidget {
   final ScrollModalities scrollModalities;
   final Function(int index) onSelectedItemChanged;
   final Function onItemTap;
-  final Function onTopTap;
-  final Function onBottomTap;
-  final Function onSpecularTap;
 
   ListWheelGestureDetector({
     @required this.itemExtent,
@@ -27,13 +24,7 @@ class ListWheelGestureDetector extends StatefulWidget {
     this.onSelectedItemChanged,
     this.scrollModalities = const ScrollModalities(),
     this.onItemTap,
-    this.onTopTap,
-    this.onBottomTap,
-    this.onSpecularTap,
-  })  : assert(specular
-            ? (onTopTap == null && onBottomTap == null)
-            : onSpecularTap == null),
-        assert(itemExtent != null);
+  }) : assert(itemExtent != null);
 
   @override
   _ListWheelGestureDetectorState createState() =>
@@ -95,20 +86,27 @@ class _ListWheelGestureDetectorState extends State<ListWheelGestureDetector> {
   Widget _generateGestureDetector(TapLocation tapLocation) {
     Function _generateOnTap() {
       if (onTapAbilited) {
-        print('on tap is abilited');
         if (tapLocation == TapLocation.top)
-          return widget.onTopTap ?? () => tapPositionAt(tapLocation);
+          return () => tapPositionAt(tapLocation);
         if (tapLocation == TapLocation.bottom)
-          return widget.onBottomTap ?? () => tapPositionAt(tapLocation);
+          return () => tapPositionAt(tapLocation);
+      }
+      return null;
+    }
+
+    Function _generateOnDoubleTapAbilited() {
+      if (onDoubleTapAbilited) {
+        if (tapLocation == TapLocation.top)
+          return () => longPressPositionAt(tapLocation);
+        if (tapLocation == TapLocation.bottom)
+          return () => longPressPositionAt(tapLocation);
       }
       return null;
     }
 
     return GestureDetector(
       onTap: _generateOnTap(),
-      onLongPress: onDoubleTapAbilited
-          ? () => longPressPositionAt(TapLocation.top)
-          : null,
+      onLongPress: _generateOnDoubleTapAbilited(),
     );
   }
 
@@ -140,16 +138,7 @@ class _ListWheelGestureDetectorState extends State<ListWheelGestureDetector> {
                 },
               ),
             ),
-            Expanded(
-              child: GestureDetector(
-                onTap: onTapAbilited
-                    ? () => tapPositionAt(TapLocation.bottom)
-                    : null,
-                onLongPress: onDoubleTapAbilited
-                    ? () => longPressPositionAt(TapLocation.bottom)
-                    : null,
-              ),
-            )
+            Expanded(child: _generateGestureDetector(TapLocation.bottom)),
           ],
         )),
       ],
@@ -167,3 +156,5 @@ class ScrollModalities {
     this.onDrag = true,
   });
 }
+
+// TODO create a chachable RollWheelGestureDetector
