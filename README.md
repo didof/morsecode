@@ -9,4 +9,4 @@
 
 ### Gifs
 
-![list_wheel_and_animation_gif](https://github.com/didof/morsecode/blob/main/gifs/list_wheel_and_animations.gif)
+![list_wheel_with_animation_gif](https://github.com/didof/morsecode/blob/main/gifs/list_wheel_with_animations.gif)
