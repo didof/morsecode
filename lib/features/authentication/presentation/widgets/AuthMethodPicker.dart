@@ -34,14 +34,14 @@ class AuthMethodPicker extends StatelessWidget {
                 leading: AnimatedContainer(
                   duration: provider.duration,
                   decoration: BoxDecoration(
-                    color: provider.getColor(index, inverted: true),
+                    color: provider.getColor(index),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   curve: Curves.easeInOut,
                   padding: const EdgeInsets.all(16.0),
                   child: FaIcon(
                     icon,
-                    color: provider.getColor(index),
+                    color: provider.getColor(index, inverted: true),
                   ),
                 ),
                 title: AnimatedDefaultTextStyle(

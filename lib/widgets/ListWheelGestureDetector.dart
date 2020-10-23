@@ -52,6 +52,7 @@ class _ListWheelGestureDetectorState extends State<ListWheelGestureDetector> {
             itemExtent: widget.itemExtent,
             children: widget.children,
             onSelectedItemChanged: widget.onSelectedItemChanged,
+            physics: FixedExtentScrollPhysics(),
           ),
         ),
         Container(

@@ -16,8 +16,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData(
-      primarySwatch: Colors.green,
-      accentColor: Colors.purple,
+      primarySwatch: Colors.purple,
+      accentColor: Colors.amber,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
 
