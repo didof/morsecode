@@ -1,4 +1,6 @@
+import 'package:meta/meta.dart';
 import 'package:morsecode/features/converter/domain/tuples.dart';
+import 'package:morsecode/features/converter/presentation/stages/with_lamp.dart';
 
 class Mc {
   final String word;
@@ -33,23 +35,55 @@ class Mc {
 
   List<String> get props => [word, morsecode.join()];
 
-  Stream<bool> streamMorsecodeToBool() async* {
+  Stream<bool> streamMorsecodeToBool({
+    @required StreamSpeed streamSpeed,
+  }) async* {
     print('[asyncronizeMorsecodeToBool] called with morsecode:$morsecode');
     final stringified = morsecode.join(" ");
+    final durations = buildDurationsSet(streamSpeed);
 
     for (var i = 0; i < stringified.length; i++) {
       if (stringified[i] != ' ') {
         yield true;
         await Future.delayed(Duration(milliseconds: durations[stringified[i]]));
         yield false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: durations['|']));
       } else
         yield false;
     }
   }
 }
 
+Map<String, int> buildDurationsSet(StreamSpeed speed) {
+  const durationsSlow = const {
+    '|': 500,
+    '.': 500,
+    '-': 1000,
+    ' ': 2000,
+  };
+  const durationsMedium = const {
+    '|': 1000,
+    '.': 1000,
+    '-': 2000,
+    ' ': 4000,
+  };
+  const durationsFast = const {
+    '|': 2000,
+    '.': 2000,
+    '-': 4000,
+    ' ': 8000,
+  };
+
+  if (speed == StreamSpeed.medium) {
+    return durationsMedium;
+  } else if (speed == StreamSpeed.slow) {
+    return durationsSlow;
+  }
+  return durationsFast;
+}
+
 const durations = const {
+  '|': 500,
   '.': 500,
   '-': 1000,
   ' ': 2000,

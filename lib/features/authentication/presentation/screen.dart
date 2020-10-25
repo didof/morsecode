@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:morsecode/features/authentication/domain/authMethods.dart';
-import 'package:morsecode/features/authentication/domain/authentication_section.dart';
+import 'package:morsecode/core/UI/transitions/authentication_section.dart';
 import 'package:morsecode/features/authentication/presentation/providers/listWheel_provider.dart';
 import 'package:morsecode/features/authentication/presentation/widgets/AuthMethodPicker.dart';
 import 'package:morsecode/widgets/ListWheelGestureDetector.dart';
@@ -24,8 +24,10 @@ class AuthenticationScreen extends StatelessWidget {
                   onSelectedItemChanged: (value) => provider.setIndex(value),
                   onItemTap: () {
                     final AuthMethod authMethod = authMethods[provider.index];
-                    Navigator.of(context)
-                        .push(transitionsAuthentication(authMethod.instance));
+                    Navigator.of(context).push(transitionFrom(
+                      Direction.bottom,
+                      landingPage: authMethod.instance,
+                    ));
                   },
                 ),
               ],

@@ -16,6 +16,4 @@ abstract class ConverterRepositoryContract {
   Mc instantiateMcEntity({String word, List<String> morsecode});
 
   Stream<LampState> playLampStream({@required Stream<bool> lampStream});
-
-  Stream<LampState> pauseLampStream({@required Stream<bool> lampStream});
 }

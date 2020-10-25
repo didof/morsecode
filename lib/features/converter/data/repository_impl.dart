@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:morsecode/features/converter/data/lamp_interface.dart';
+import 'package:morsecode/features/converter/data/interfaces/lamp_interface.dart';
 import 'package:morsecode/features/converter/domain/entitities/Mc.dart';
 import 'package:morsecode/features/converter/domain/repository_contract.dart';
 
@@ -64,10 +64,5 @@ class ConverterRepositoryImpl implements ConverterRepositoryContract {
       lampController.close();
     });
     return lampController.stream;
-  }
-
-  @override
-  Stream<LampState> pauseLampStream({@required Stream<bool> lampStream}) {
-    print(lampStream);
   }
 }

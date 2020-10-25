@@ -33,7 +33,12 @@ class ConverterMorsecoding extends ConverterState {
 class ConverterWithStream extends ConverterState {
   final String word;
   final Stream<bool> stream;
-  ConverterWithStream({@required this.word, @required this.stream});
+  final bool lamp;
+  ConverterWithStream({
+    @required this.word,
+    @required this.stream,
+    @required this.lamp,
+  });
 }
 
 class ConverterLoading extends ConverterState {

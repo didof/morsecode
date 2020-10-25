@@ -5,11 +5,10 @@ import 'package:morsecode/features/converter/domain/entitities/Mc.dart';
 import 'package:morsecode/features/converter/domain/repository_contract.dart';
 import 'package:morsecode/features/converter/domain/usecases/use_hasLamp.dart';
 import 'package:morsecode/features/converter/domain/usecases/use_invertLampState.dart';
-import 'package:morsecode/features/converter/domain/usecases/use_pauseLampStream.dart';
 import 'package:morsecode/features/converter/domain/usecases/use_playLampStream.dart';
 import 'package:morsecode/features/converter/domain/usecases/use_setLampState.dart';
 import 'package:morsecode/features/converter/domain/usecases/use_getStreamBoolFromWord.dart';
-
+import 'package:morsecode/features/converter/presentation/stages/with_lamp.dart';
 part 'converter_state.dart';
 
 class ConverterCubit extends Cubit<ConverterState> {
@@ -18,7 +17,6 @@ class ConverterCubit extends Cubit<ConverterState> {
   final UseInvertLampState useInvertLampState;
   final UseInstantiateMcFromWord useInstantiateMcFromWord;
   final UsePlayLampStream usePlayLampStream;
-  final UsePauseLampStream usePauseLampStream;
 
   ConverterCubit({
     @required this.useHasLamp,
@@ -26,7 +24,6 @@ class ConverterCubit extends Cubit<ConverterState> {
     @required this.useInvertLampState,
     @required this.useInstantiateMcFromWord,
     @required this.usePlayLampStream,
-    @required this.usePauseLampStream,
   }) : super(ConverterSetup(message: 'setup'));
 
   // ! private methods
@@ -67,12 +64,21 @@ class ConverterCubit extends Cubit<ConverterState> {
     emit(ConverterWithLamp(lampState: updatedLampState));
   }
 
-  void getStreamBoolFromWord({@required String word}) {
+  void getStreamBoolFromWord({
+    @required String word,
+    @required bool lamp,
+    @required StreamSpeed streamSpeed,
+  }) {
     print('[getStreamBoolFromWord] called with word:$word');
     final Mc instance = _getInstanceFromWord(word);
-    final Stream<bool> streamBool =
-        instance.streamMorsecodeToBool().asBroadcastStream();
-    emit(ConverterWithStream(word: word, stream: streamBool));
+    final Stream<bool> streamBool = instance
+        .streamMorsecodeToBool(streamSpeed: streamSpeed)
+        .asBroadcastStream();
+    emit(ConverterWithStream(
+      word: word,
+      stream: streamBool,
+      lamp: lamp,
+    ));
   }
 
   void playLampStream({@required Stream<bool> streamBool}) {

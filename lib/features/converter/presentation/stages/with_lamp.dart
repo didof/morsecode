@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:morsecode/features/converter/domain/repository_contract.dart';
 import 'package:morsecode/features/converter/presentation/cubit/converter_cubit.dart';
+import 'package:morsecode/widgets/button.dart';
+import 'package:morsecode/widgets/text_field.dart';
 
 /// UI that presents a [TextField] and a [Button]. If the former is empty, the
 /// pressing of [Button] will toggle the device camera light.
@@ -19,10 +21,14 @@ class ConverterActiveWithLampUI extends StatefulWidget {
 
 class _ConverterActiveWithLampUIState extends State<ConverterActiveWithLampUI> {
   TextEditingController _textFieldController;
+  bool _switchValue;
+  double _sliderValue;
 
   @override
   void initState() {
     _textFieldController = TextEditingController();
+    _switchValue = false;
+    _sliderValue = 1;
     super.initState();
   }
 
@@ -39,82 +45,72 @@ class _ConverterActiveWithLampUIState extends State<ConverterActiveWithLampUI> {
     if (_textFieldController.text.isEmpty) {
       cubit.invertLampState(currentLampState: widget.currentLampState);
     } else {
-      cubit.getStreamBoolFromWord(word: _textFieldController.text);
+      cubit.getStreamBoolFromWord(
+        word: _textFieldController.text,
+        lamp: _switchValue,
+        streamSpeed: streamSpeed,
+      );
     }
+  }
+
+  StreamSpeed get streamSpeed {
+    if (_sliderValue <= 1) {
+      return StreamSpeed.slow;
+    } else if (_sliderValue <= 2) {
+      return StreamSpeed.medium;
+    }
+    return StreamSpeed.fast;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
       children: [
-        CustomButton(
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: CustomTextField(
+            controller: _textFieldController,
+          ),
+        ),
+        SwitchListTile(
+          title: const Text('Light'),
+          value: _switchValue,
+          onChanged: (value) {
+            setState(() {
+              _switchValue = value;
+            });
+          },
+        ),
+        ListTile(
+          title: const Text('Speed'),
+          subtitle: Slider(
+            value: _sliderValue,
+            divisions: 2,
+            label: _sliderValue.floor().toString(),
+            min: 1,
+            max: 3,
+            onChanged: (value) {
+              setState(() {
+                _sliderValue = value;
+              });
+            },
+          ),
+        ),
+        OnOffButton(
           currentLampState: widget.currentLampState,
           dispatch: dispatchEvent,
         ),
-        Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: CustomTextField(controller: _textFieldController)),
+        FlatButton(
+          child: const Text('test'),
+          onPressed: () => print(streamSpeed),
+        )
       ],
     );
   }
 }
 
-class CustomTextField extends StatelessWidget {
-  final TextEditingController controller;
-  const CustomTextField({@required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: BorderSide(
-            color: theme.primaryColor,
-          ),
-        ),
-        filled: true,
-        fillColor: theme.primaryColorLight,
-      ),
-      maxLength: 5,
-      cursorColor: theme.primaryColor,
-      autofocus: true,
-      keyboardType: TextInputType.text,
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  final LampState currentLampState;
-  final Function dispatch;
-  const CustomButton({
-    @required this.currentLampState,
-    @required this.dispatch,
-  });
-
-  // getters
-  Widget get lampButtonText =>
-      currentLampState == LampState.off ? const Text('ON') : const Text('OFF');
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return FlatButton(
-      color: theme.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        side: BorderSide(color: theme.primaryColor),
-      ),
-      splashColor: theme.accentColor,
-      padding: const EdgeInsets.all(16.0),
-      textColor: Colors.white,
-      child: lampButtonText,
-      onPressed: dispatch,
-    );
-  }
+enum StreamSpeed {
+  slow,
+  medium,
+  fast,
 }

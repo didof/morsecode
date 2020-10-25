@@ -2,14 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:morsecode/core/UI/transitions/authentication_section.dart';
 import 'package:morsecode/features/authentication/presentation/screen.dart';
-import 'package:morsecode/core/globals/permissions.dart' as permissions;
 import 'package:morsecode/features/converter/presentation/screen.dart';
+import 'package:morsecode/core/globals/permissions.dart' as permissions;
+import 'package:morsecode/core/injector_container.dart' as injector;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await permissions.init();
+  await injector.serviceLocatorInject();
   runApp(App());
 }
 
@@ -26,15 +29,28 @@ class App extends StatelessWidget {
       title: 'morsecode',
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: Bypass(),
+      home: LandScreen(),
     );
   }
 }
 
-class Bypass extends StatelessWidget {
+class LandScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ConverterScreen();
+    return Scaffold(
+      body: ListView(children: [
+        FlatButton.icon(
+          icon: const Icon(Icons.lightbulb_outline),
+          label: const Text('Converter'),
+          onPressed: () {
+            Navigator.of(context).push(transitionFrom(
+              Direction.right,
+              landingPage: ConverterScreen(),
+            ));
+          },
+        ),
+      ]),
+    );
   }
 }
 

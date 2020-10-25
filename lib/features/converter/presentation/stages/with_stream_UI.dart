@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:morsecode/features/converter/presentation/cubit/converter_cubit.dart';
+import 'package:morsecode/features/converter/presentation/stages/with_lamp.dart';
+import 'package:morsecode/widgets/button.dart';
 
 class ConverterWithStreamUI extends StatelessWidget {
   final String word;
@@ -20,7 +22,9 @@ class ConverterWithStreamUI extends StatelessWidget {
   void dispatchRepeat(BuildContext context) {
     print('[dispatchRepeat]');
     BlocProvider.of<ConverterCubit>(context).getStreamBoolFromWord(
+      streamSpeed: StreamSpeed.medium,
       word: word,
+      lamp: false,
     );
   }
 
@@ -67,20 +71,22 @@ class Done extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisSize: MainAxisSize.max,
       children: [
         CircleAvatar(backgroundColor: Colors.blue),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlatButton.icon(
-              icon: const Icon(Icons.chevron_left),
+            CustomButton(
+              icon: Icon(Icons.chevron_left),
               label: const Text('CHANGE'),
-              onPressed: onReset,
+              dispatch: onReset,
             ),
-            OutlineButton.icon(
-              icon: const Icon(Icons.refresh),
+            CustomButton(
+              icon: Icon(Icons.refresh),
               label: const Text('REPEAT'),
-              onPressed: onRepeat,
+              dispatch: onRepeat,
             ),
           ],
         ),
@@ -100,12 +106,17 @@ class Active extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisSize: MainAxisSize.max,
       children: [
-        CircleAvatar(backgroundColor: isOn ? Colors.yellow : Colors.black),
-        FlatButton.icon(
-          icon: const Icon(Icons.chevron_left),
+        CircleAvatar(
+          backgroundColor: isOn ? Colors.yellow : Colors.black,
+          child: const Icon(Icons.lightbulb_outline),
+        ),
+        CustomButton(
+          icon: Icon(Icons.chevron_left),
           label: const Text('CANCEL'),
-          onPressed: onCancel,
+          dispatch: onCancel,
         ),
       ],
     );
