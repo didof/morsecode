@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:morsecode/core/authentication/authMethods.dart';
+import 'package:morsecode/features/authentication/domain/authMethods.dart';
 import 'package:morsecode/features/authentication/presentation/sections/notYetImplemented.dart';
 import 'package:morsecode/features/authentication/presentation/sections/signInSection.dart';
 import 'package:morsecode/features/authentication/presentation/sections/signUpSection.dart';

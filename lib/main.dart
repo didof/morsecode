@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:morsecode/features/authentication/presentation/screen.dart';
-import 'package:morsecode/core/permissions.dart' as permissions;
+import 'package:morsecode/core/globals/permissions.dart' as permissions;
+import 'package:morsecode/features/converter/presentation/screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,15 @@ class App extends StatelessWidget {
       title: 'morsecode',
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: Home(),
+      home: Bypass(),
     );
+  }
+}
+
+class Bypass extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ConverterScreen();
   }
 }
 

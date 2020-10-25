@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:morsecode/core/authentication/authMethods.dart';
-import 'package:morsecode/core/transitions/authentication_section.dart';
+import 'package:morsecode/features/authentication/domain/authMethods.dart';
+import 'package:morsecode/features/authentication/domain/authentication_section.dart';
 import 'package:morsecode/features/authentication/presentation/providers/listWheel_provider.dart';
-import 'package:morsecode/features/authentication/presentation/scaffold_components/pickerSelectorFAB.dart';
 import 'package:morsecode/features/authentication/presentation/widgets/AuthMethodPicker.dart';
 import 'package:morsecode/widgets/ListWheelGestureDetector.dart';
 
