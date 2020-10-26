@@ -47,9 +47,11 @@ class ConverterCubit extends Cubit<ConverterState> {
   }
 
   void setLampState({@required LampState newLampState}) {
+    print('[setLampState] called with newLampState:$newLampState');
     final LampState updatedLampState = useSetLampState(
       SetLampStateParams(newLampState: newLampState),
     );
+    print('[setLampState] updatedLampState:$updatedLampState');
     emit(ConverterWithLamp(lampState: updatedLampState));
   }
 
@@ -86,14 +88,11 @@ class ConverterCubit extends Cubit<ConverterState> {
     usePlayLampStream(PlayLampStream(stream: streamBool));
   }
 
-  void pauseLampStream({@required Stream<bool> streamBool}) {
-    print('[pauseLampStream] called with streamBool:$streamBool');
-  }
-
   void resetToWithLampUI({@required Stream<bool> streamBool}) {
     print('[resetToWithLampUI] called with streamBool:$streamBool');
     streamBool.drain();
-    print('[resetToWithLampUI] stream was drained');
+    setLampState(newLampState: LampState.off);
+    print('[resetToWithLampUI] stream was drained and light should be off');
     emit(ConverterWithLamp(lampState: LampState.off));
   }
 }
