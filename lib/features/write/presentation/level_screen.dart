@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:morsecode/features/write/presentation/cubit/write_cubit.dart';
+import 'package:morsecode/features/write/presentation/stages/active.dart';
 import 'package:morsecode/features/write/presentation/stages/setup.dart';
 
 class LevelWriteScreen extends StatelessWidget {
@@ -21,7 +22,9 @@ class LevelWriteScreen extends StatelessWidget {
             return WriteSetupUI(i, message: state.message);
           }
           if (state is WriteActive) {
-            return Text(state.instance.word);
+            return WriteActiveUI(
+              word: state.instance.word,
+            );
           }
         },
       ),

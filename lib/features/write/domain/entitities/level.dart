@@ -6,12 +6,10 @@ class Level {
   final List<Mc> words;
   final bool completed;
   final int stars;
-  final int timePerWord;
   Level({
     @required this.label,
     @required this.words,
     @required this.completed,
     @required this.stars,
-    @required this.timePerWord,
   });
 }

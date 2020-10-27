@@ -3,13 +3,20 @@ import 'package:morsecode/features/write/domain/entitities/level.dart';
 
 final List<Level> levels = [
   Level(
+    label: 'numbers',
+    completed: false, // take this from sqlite
+    stars: 0, // take this from sqlite,
+    words: _buildListOfInstanceFromWords(
+      ['1', '2', '3', '4', '5'],
+    ),
+  ),
+  Level(
     label: 'persons',
     completed: false, // take this from sqlite
     stars: 0, // take this from sqlite,
     words: _buildListOfInstanceFromWords(
       ['man', 'woman', 'kid', 'son', 'daughter'],
     ),
-    timePerWord: 20,
   ),
   Level(
     label: 'time',
@@ -18,7 +25,6 @@ final List<Level> levels = [
     words: _buildListOfInstanceFromWords(
       ['today', 'yesterday', 'tomorrow', '', 'daughter'],
     ),
-    timePerWord: 20,
   ),
   Level(
     label: 'food',
@@ -26,7 +32,6 @@ final List<Level> levels = [
     stars: 0,
     words: _buildListOfInstanceFromWords(
         ['apple', 'banana', 'meat', 'fish', 'nuts']),
-    timePerWord: 20,
   ),
 ];
 

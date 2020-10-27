@@ -12,6 +12,8 @@ class WriteCubit extends Cubit<WriteState> {
   void setup({@required int levelIndex}) async {
     final Level level = levels[levelIndex];
     final Mc instance = level.words[0];
-    emit(WriteActive(instance: instance));
+    emit(WriteActive(
+      instance: instance,
+    ));
   }
 }

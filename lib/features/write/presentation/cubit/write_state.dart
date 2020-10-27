@@ -12,5 +12,7 @@ class WriteSetup extends WriteState {
 
 class WriteActive extends WriteState {
   final Mc instance;
-  const WriteActive({@required this.instance});
+  const WriteActive({
+    @required this.instance,
+  });
 }
