@@ -66,3 +66,7 @@ class ConverterRepositoryImpl implements ConverterRepositoryContract {
     return lampController.stream;
   }
 }
+
+
+// TODO find a way to pause and cancel the stream
+// TODO syncronize the light with the dislay

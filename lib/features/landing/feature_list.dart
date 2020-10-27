@@ -4,7 +4,7 @@ import 'package:morsecode/features/landing/feature_interface.dart';
 import 'package:morsecode/features/landing/widgets/FeaturePicker.dart';
 import 'package:morsecode/features/learn/screen.dart';
 import 'package:morsecode/features/listen/screen.dart';
-import 'package:morsecode/features/write/screen.dart';
+import 'package:morsecode/features/write/presentation/screen.dart';
 
 final Map<Features, FeatureInterface> allFeatures = {
   Features.learn: FeatureInterface(

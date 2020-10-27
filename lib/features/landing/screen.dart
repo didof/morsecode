@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:morsecode/core/UI/transitions/authentication_section.dart';
 import 'package:morsecode/core/dev_facade.dart';
-import 'package:morsecode/features/landing/feature_interface.dart';
 import 'package:morsecode/features/landing/feature_list.dart';
 import 'package:morsecode/features/landing/provider.dart';
 import 'package:morsecode/widgets/ListWheelGestureDetector.dart';
@@ -52,3 +51,5 @@ class LandScreen extends StatelessWidget {
     );
   }
 }
+
+// TODO add animations

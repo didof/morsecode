@@ -8,6 +8,7 @@ import 'package:morsecode/features/converter/domain/usecases/use_invertLampState
 import 'package:morsecode/features/converter/domain/usecases/use_playLampStream.dart';
 import 'package:morsecode/features/converter/domain/usecases/use_setLampState.dart';
 import 'package:morsecode/features/converter/presentation/cubit/converter_cubit.dart';
+import 'package:morsecode/features/write/presentation/cubit/write_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -21,6 +22,9 @@ Future<void> serviceLocatorInject() async {
       useInstantiateMcFromWord: sl(),
       usePlayLampStream: sl(),
     );
+  });
+  sl.registerFactory(() {
+    return WriteCubit();
   });
 
   // usecases
